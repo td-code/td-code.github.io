@@ -87,6 +87,7 @@ Der nächste Schritt hängt davon ab, ob Sie auf dem Laborrechner (Linux mit GPU
         "all",                                      << added
         "--volume",                                 << added
         "/usr/local/cuda-12.8:/usr/local/cuda-12.8" << added
+        ...
     ],
    ```
 
