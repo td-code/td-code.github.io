@@ -242,17 +242,18 @@ Führen Sie dann folgende Aufgaben aus:
 2. Visualisieren Sie LiDAR-Scan und Kamerabild in rviz2 mit ``Add -> By Topic``.
 3. Geben Sie die Scan-Message auf der Konsole aus. Welche Felder hat die Nachricht?
 4. Bewegen Sie den TurtleBot, indem Sie über die Kommandozeile eine entsprechende Nachricht senden:
-```bash
-ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped "twist:
-  linear:
-    x: 0.25
-    y: 0.0
-    z: 0.0
-  angular:
-    x: 0.0
-    y: 0.0
-    z: 0.0" 
-```
+    ```bash
+    ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped \
+    "twist:
+    linear:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+    angular:
+        x: 0.0
+        y: 0.0
+        z: 0.0"
+    ```
 Wie dreht man den TurtleBot?
 
 ## Abschluss des Labors (für jeden Labortermin gleich) 

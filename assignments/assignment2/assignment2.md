@@ -40,40 +40,41 @@ Achten Sie darauf, dass Sie jeden ROS-Befehl immer mit der richtigen ROS_DOMAIN_
 
 Führen Sie nun folgende Schritte aus:
 1. Wählen Sie einen Roboter aus und loggen Sie sich aus dem Devcontainer wie im ersten Labor auf dem TurtleBot ein (User: ubuntu, Passwort: turtlebot4). Beispiel für TurtleBot1:
-  ```bash
-  ssh ubuntu@192.168.60.11
-  ```
+    ```bash
+    ssh ubuntu@192.168.60.11
+    ```
 
 2. Setzen Sie in einem zweiten Terminal auf dem Labor-PC dieselbe ROS_DOMAIN_ID. Vergewissern Sie sich, dass sowohl auf dem Labor-PC als auch auf dem Raspberry Pi des TurtleBots dieselben Topics angezeigt werden. Prüfen Sie dazu, ob in beiden Terminals die Ausgabe von
-  ```bash
-  ros2 topic list
-  ```  
-  dieselben Topics zeigt.
+    ```bash
+    ros2 topic list
+    ```  
+    dieselben Topics zeigt.
 
 3. Betrachten Sie als Nächstes in rviz2 die Sensordaten des realen Roboters. Starten Sie rviz2 mit
-  ```bash
-  ros2 launch turtlebot4_viz view_model.launch.py
-  ```
-  und zeigen Sie einen Live-Feed des LiDAR-Scans und des Kamerabilds an.
+    ```bash
+    ros2 launch turtlebot4_viz view_model.launch.py
+    ```
+    und zeigen Sie einen Live-Feed des LiDAR-Scans und des Kamerabilds an.
 
 4. Bewegen Sie nun wie beim letzten Mal in der Simulation den realen TurtleBot. Senden Sie dazu über die Kommandozeile eine Nachricht wie diese:
-  ```bash
-  ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped "twist:
-    linear:
-      x: 0.25
-      y: 0.0
-      z: 0.0
-    angular:
-      x: 0.0
-      y: 0.0
-      z: 0.0" 
-  ```
+    ```bash
+    ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped \
+    "twist:
+      linear:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      angular:
+        x: 0.0
+        y: 0.0
+        z: 0.0"
+    ```
 
 5. Sie können den TurtleBot auch mit der Tastatur oder einem Controller teleoperieren. Starten Sie dazu in einem Terminal:
-  ```bash
-  ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
-  ```
-  Weitere Informationen zum Fahren des Roboters finden Sie im [Driving Tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/driving.html).
+    ```bash
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
+    ```
+    Weitere Informationen zum Fahren des Roboters finden Sie im [Driving Tutorial](https://turtlebot.github.io/turtlebot4-user-manual/tutorials/driving.html).
 
 ## Aufgabe 2: HitMe in Simulation
 
@@ -83,9 +84,9 @@ Wichtig bei der Entwicklung einer solchen Applikation sind gute Möglichkeiten z
 1. Deshalb entwickeln Sie die Applikation zunächst in der Simulation. 
 2. Außerdem sollen Sie den erfassten nächsten Scanpunkt (auf den sich der Roboter zu bewegen soll) in rviz2 visualisieren, um Ihren Node besser überprüfen zu können. 
 3. Nutzen Sie auch die Logger-Funktionalität, um Debug-Nachrichten zu erzeugen, z.B. wie im letzten Labor:
-  ```bash
-  self.get_logger().info('I heard: "%s"' % msg.data)
-  ```
+    ```bash
+    self.get_logger().info('I heard: "%s"' % msg.data)
+    ```
 
 Zur Aufgabe:
 
@@ -94,28 +95,29 @@ Zur Aufgabe:
 2. In [hit_me.py](https://gist.github.com/td-code/e9eceda78c1c87ef49820726c7ab8039) finden Sie eine Vorlage, die Sie als Grundgerüst für den Node verwenden können. Kopieren Sie diese Vorlage in Ihr neues Paket unter ``lab2_hit_me/lab2_hit_me/hit_me.py``.
 
 3. Starten Sie eine einfache Simulation:
-  ```bash
-  # 1st terminal
-  ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py world:=simple_world
-  ```
-  In Gazebo können Sie Objekte auch während der Simulation manuell bewegen. Laden Sie dazu zunächst über die drei Punkte oben rechts das "SelectEntities"-Plugin. Ist dieses Plugin geladen, können Sie ein Objekt selektieren (Pfeilsymbol) und dann entlang der Koordinatenachsen verschieben (Doppelpfeilsymbol). 
+    ```bash
+    # 1st terminal
+    ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py world:=simple_world
+    ```
+    In Gazebo können Sie Objekte auch während der Simulation manuell bewegen. Laden Sie dazu zunächst über die drei Punkte oben rechts das "SelectEntities"-Plugin. Ist dieses Plugin geladen, können Sie ein Objekt selektieren (Pfeilsymbol) und dann entlang der Koordinatenachsen verschieben (Doppelpfeilsymbol). 
 
-  **ACHTUNG:** Wenn Sie die Simulation starten, dürfen Sie nicht in der ``ROS_DOMAIN_ID`` des TurtleBots sein, sondern verwenden die auf dem Rechner standardmäßig gesetzte ID.
+    **ACHTUNG:** Wenn Sie die Simulation starten, dürfen Sie nicht in der ``ROS_DOMAIN_ID`` des TurtleBots sein, sondern verwenden die auf dem Rechner standardmäßig gesetzte ID.
 
 4. Programmieren Sie in ``hit_me.py`` die Suche nach dem nächsten LiDAR-Scanpunkt. Berechnen Sie daraus auch die Entfernung und den Winkel zum nächsten Hindernispunkt. Erzeugen Sie anschließend einen Marker an der Position des gefundenen nächsten Punktes und visualisieren Sie diesen Marker in rviz2.  <br>
 Hilfreich ist dabei die [Definition der empfangenen LaserScan-Message](https://docs.ros.org/en/rolling/p/sensor_msgs/msg/LaserScan.html). Starten Sie zum Test Ihres bisherigen Codes in einem zweiten Terminal rviz2 und in einem dritten Terminal den ``hit_me``-Node:
-  ```bash
-  # build package
-  cd /workspace/ && colcon build --merge-install --symlink-install --cmake-args "-DCMAKE_BUILD_TYPE=Release"
-  source install/setup.bash
 
-  # 2nd terminal
-  ros2 launch turtlebot4_viz view_model.launch.py
+    ```bash
+    # build package
+    cd /workspace/ && colcon build --merge-install --symlink-install --cmake-args "-DCMAKE_BUILD_TYPE=Release"
+    source install/setup.bash
 
-  # 3rd terminal
-  source /workspace/install/setup.bash
-  ros2 run lab2_hit_me hit_me
-  ``` 
+    # 2nd terminal
+    ros2 launch turtlebot4_viz view_model.launch.py
+
+    # 3rd terminal
+    source /workspace/install/setup.bash
+    ros2 run lab2_hit_me hit_me
+    ``` 
 
 5. Programmieren Sie mit Hilfe des zuvor bestimmten Winkels und der Distanz des nächsten Scanpunktes einen einfachen Regelalgorithmus, um einen Steuerbefehl für den Roboter zu berechnen. Der Steuerbefehl ist vom Typ [TwistStamped](https://docs.ros.org/en/rolling/p/geometry_msgs/msg/TwistStamped.html) und wurde in Aufgabe 1 bereits verwendet. <br>
 Testen Sie Ihren Algorithmus in der Simulation.
