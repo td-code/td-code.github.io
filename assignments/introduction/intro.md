@@ -1,4 +1,4 @@
-# Labor Autonomous Systems Design
+# Labor Autonomous Systems Design - Einführung
 
 Thao Dang 2026, Hochschule Esslingen 
 
