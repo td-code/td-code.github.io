@@ -1,9 +1,3 @@
----
-title: Laboraufgaben ASD
-layout: jekyll-theme-cayman
-filename: asd-labor.md
---- 
-
 # ASD Labor TurtleBot
 
 Hier finden Sie die Laboraufgaben für das Labor Autonomous System Design (ASD).
