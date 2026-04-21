@@ -81,7 +81,7 @@ Der nächste Schritt hängt davon ab, ob Sie auf dem Laborrechner (Linux mit GPU
        "runArgs": [
         ...
         "-v",
-        "./data:/workspace/data",
+        "./docker/bash:/home/ubuntu/bash",
         "--runtime=nvidia",                         << added
         "--gpus",                                   << added
         "all",                                      << added
