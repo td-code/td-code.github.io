@@ -97,9 +97,10 @@ Zur Aufgabe:
 3. Starten Sie eine einfache Simulation:
     ```bash
     # 1st terminal
-    ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py world:=simple_world
+    ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py model:=lite world:=simple_world
     ```
-    In Gazebo können Sie Objekte auch während der Simulation manuell bewegen. Laden Sie dazu zunächst über die drei Punkte oben rechts das "SelectEntities"-Plugin. Ist dieses Plugin geladen, können Sie ein Objekt selektieren (Pfeilsymbol) und dann entlang der Koordinatenachsen verschieben (Doppelpfeilsymbol). 
+    In Gazebo können Sie Objekte auch während der Simulation manuell bewegen. Laden Sie dazu zunächst über die drei Punkte oben rechts das "SelectEntities"-Plugin. Ist dieses Plugin geladen, können Sie ein Objekt selektieren (Pfeilsymbol) und dann entlang der Koordinatenachsen verschieben (Doppelpfeilsymbol):
+    ![Select entities](select_entities.gif)  
 
     **ACHTUNG:** Wenn Sie die Simulation starten, dürfen Sie nicht in der ``ROS_DOMAIN_ID`` des TurtleBots sein, sondern verwenden die auf dem Rechner standardmäßig gesetzte ID.
 
@@ -108,23 +109,24 @@ Hilfreich ist dabei die [Definition der empfangenen LaserScan-Message](https://d
 
     ```bash
     # build package
-    cd /workspace/ && colcon build --merge-install --symlink-install --cmake-args "-DCMAKE_BUILD_TYPE=Release"
-    source install/setup.bash
+    cd /workspace/ && colcon build --merge-install --symlink-install --cmake-args "-DCMAKE_BUILD_TYPE=Release" && source install/setup.bash
 
     # 2nd terminal
     ros2 launch turtlebot4_viz view_model.launch.py
 
     # 3rd terminal
-    source /workspace/install/setup.bash
     ros2 run lab2_hit_me hit_me
     ``` 
+
+**Hinweis**: In der Simulation steht der Roboter zunächst in seiner Docking-Station und kann sich nicht frei bewegen. Sie müssen in deshalb zunächst über den Reiter "Teleop" frei fahren:
+![undock](undock.png)
 
 5. Programmieren Sie mit Hilfe des zuvor bestimmten Winkels und der Distanz des nächsten Scanpunktes einen einfachen Regelalgorithmus, um einen Steuerbefehl für den Roboter zu berechnen. Der Steuerbefehl ist vom Typ [TwistStamped](https://docs.ros.org/en/rolling/p/geometry_msgs/msg/TwistStamped.html) und wurde in Aufgabe 1 bereits verwendet. <br>
 Testen Sie Ihren Algorithmus in der Simulation.
 
 ## Aufgabe 3: HitMe am realen TurtleBot
 
-Wenn Ihre Implementierung in der Simulation funktioniert, können Sie HitMe am realen Roboter testen. Setzen Sie dazu wie oben beschrieben die ROS_DOMAIN_ID für Ihren Roboter, starten Sie rviz2 (aber nicht die Simulation!) und anschließend den Node ``hit_me``.
+Wenn Ihre Implementierung in der Simulation funktioniert, können Sie HitMe am realen Roboter testen. Setzen Sie dazu wie oben beschrieben die ROS_DOMAIN_ID für Ihren Roboter, starten Sie rviz2 (siehe oben, aber nicht die Simulation!) und anschließend den Node ``hit_me``.
 
 Wie gut funktioniert Ihr Regelalgorithmus? Verbessern Sie ihn falls erforderlich.
 
